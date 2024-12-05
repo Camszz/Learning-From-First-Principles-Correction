@@ -1,0 +1,51 @@
+\documentclass[12pt,letterpaper, onecolumn]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{titlesec}
+\usepackage{dsfont}
+\usepackage[lmargin=71pt, tmargin=1.2in]{geometry}  %For centering solution box
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\lhead{LFTP - Exercises\\}
+\rhead{F. Bach, C. Dubois\\}
+% \chead{\hline} % Un-comment to draw line below header
+\thispagestyle{empty}   %For removing header/footer from page 1
+\newcommand{\rb}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\calP}{\mathcal{P}}
+
+% Redefine the section format to exclude the numbering
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+  
+\DeclareMathOperator{\vsspan}{span}
+\begin{document}
+
+\begingroup  
+    \centering
+    \LARGE Learning Theory from First Principles\\
+    \LARGE Exercises correction \\[0.5em]
+    \large \today\\[0.5em]
+    \large Francis BACH (book), Camille DUBOIS (correction)\par
+\endgroup
+\rule{\textwidth}{0.4pt}
+\pointsdroppedatright   %Self-explanatory
+\printanswers
+\renewcommand{\solutiontitle}{\noindent\textbf{Ans:}\enspace}   %Replace "Ans:" with starting keyword in solution box
+
+This pdf intends to give a correction to some of the exercises of Francis Bach's book : \href{https://www.di.ens.fr/%7Efbach/ltfp_book.pdf}{Learning Theory from First Principles}, which \textit{presents old and recent results in learning theory for the most widely used learning} and proves \textit{many results starting from first principles}.
+
+Although most of the proposals in this pdf are used in the \href{https://www.di.ens.fr/~fbach/ltfp_exercises.pdf}{official correction}, alternative formulations as well as solutions to exercises I have not done can be found on the official website. Please refer to the official correction for a proof-read by Pr Francis Bach version.
+
+\include{chap2}
+\include{chap3}
+\include{chap4}
+\include{chap5}
+\include{chap6}
+\include{chap7}
+\include{chap8}
+\include{chap9}
+\end{document}

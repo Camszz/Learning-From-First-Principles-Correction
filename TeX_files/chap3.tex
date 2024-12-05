@@ -1,0 +1,39 @@
+\section{Chapter 3}
+\begin{questions}
+\question E3.2 
+
+\begin{solution}
+    We want to compute $\hat{\mathcal{R}}({\hat{\theta}})$. 
+$$
+\begin{aligned}
+n\hat{\mathcal{R}}({\hat{\theta}}) &= \mathbb{E}(||y-\Phi \hat{\theta}||_2^2) \\
+&= \mathbb{E}(||y-\Phi (\Phi^T \Phi)^{-1} \Phi^T y||_2^2) \text{, as } \hat{\theta} = (\Phi^T \Phi)^{-1} \Phi^T y\\
+&= \mathbb{E}(||(I-\Pi)y||_2^2) \text{, where } \Pi = \Phi (\Phi^T \Phi)^{-1} \Phi^T \\
+&= \mathbb{E}(tr(y^T (I-\Pi) y)) \text{, as } I - \Pi \text{ is symmetric and } (I - \Pi)^2 = I - \Pi \\
+&= tr((I-\Pi)\mathbb{E}(yy^T)) \\
+&= \sigma^2 tr((I-\Pi)) \text{, as } \mathbb{E}(yy^T) = \sigma^2 I \\
+&= \sigma^2 (n-d) \text{, as } I \in \rb^{n\times n} \text{, and } \Pi \text{ is a projector on a space of dimension d} \\
+\end{aligned}
+$$
+This gives the expected result.
+Isolating $\sigma^2$ in the previous equation, we actually compute $\sigma^2 = \mathbb{E}(\frac{n}{n-d} ||y-\Phi \hat{\theta}||_2^2)$ which means that $\frac{n}{n-d} ||y-\Phi \hat{\theta}||_2^2$ is an unbiased estimator of $\sigma^2$.
+\end{solution}
+
+\question E3.6
+
+\begin{solution}
+    Replacing the regularization term $\lambda ||\theta||^2_2$ by $||\theta||^2_{\Lambda}$, with $\Lambda$ positive definite, we obtain that $\hat{\theta_{\Lambda}} = \frac{1}{n}(\Sigma+\Lambda)^{-1}\Phi^Ty$. Therefore, $\mathbb{E}(\theta_\Lambda) = \theta_* - (I+\Lambda)^{-1} \Lambda \theta_*$.
+    As in the book, we decompose the excess risk in bias $B$ and variance $V$. The computations yield :
+    $$
+\begin{aligned}
+B &= ||\mathbb{E}(\hat{\theta_{\Lambda}}) - \theta_*||^2_{\hat{\Sigma}} \\
+&= ||(\hat{\Sigma}+\Lambda)^{-1} \Lambda \theta_*||^2_{\hat{\Sigma}} \\
+B &= \theta_*^T \Lambda (\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma} (\hat{\Sigma} + \Lambda)^{-1} \Lambda \theta_* \\
+V &= \mathbb{E}(||\frac{1}{n} (\hat{\Sigma}+\Lambda)^{-1}\Phi^T \epsilon||^2_{\hat{\Sigma}}) \\
+&= \mathbb{E}(\frac{1}{n^2} tr(\epsilon^T \Phi (\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma} (\hat{\Sigma} + \Lambda)^{-1} \Phi^T  \epsilon)) \\
+&=\frac{1}{n^2} tr(\sigma^2 (\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma} (\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma}) \\
+V &= \frac{\sigma^2}{n} tr(((\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma})^2)
+\end{aligned}$$
+By summing the preceding terms, we have : $$\mathbb{E}(\mathcal{R}(\hat{\theta})) = \mathcal{R}^* + B + V = \sigma^2 + \theta_*^T \Lambda (\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma} (\hat{\Sigma} + \Lambda)^{-1} \Lambda \theta_* + \frac{\sigma^2}{n} tr(((\hat{\Sigma} + \Lambda)^{-1} \hat{\Sigma})^2).$$
+\end{solution}
+\end{questions}

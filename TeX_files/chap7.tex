@@ -1,0 +1,87 @@
+\section{Chapter 7}
+\begin{questions}
+
+    \question E7-1 **
+
+    \begin{solution}
+        The Riesz representation theorem states that having :
+        \begin{itemize}
+            \item a Hilbert space $\mathcal{H}$ with an inner product $\langle \cdot, \cdot \rangle_\mathcal{H}$,
+            \item $\psi$ a continuous linear form on $\mathcal{H}$,
+        \end{itemize}
+        there exists a unique $u \in \mathcal{H}$ s.t. for all $h \in \mathcal{H}$, $\psi(h) = \langle u, h \rangle_\mathcal{H}$.
+        
+        Assuming we were able to apply this theorem to our problem - meaning we need to show the continuity of $f \mapsto f(x)$ - we would obtain the following statement, for a fixed $x \in \mathcal{X}$ :
+        $$
+        \exists! u_x \in \mathcal{H}, ~\forall f \in \mathcal{H}, ~f(x) = \langle u_x, f \rangle_\mathcal{H}
+        $$
+
+        Notice that the application $x \mapsto u_x$ is well defined. The theorem's results would directly yield the reproducing properties (noticing that $u_y(x)$ would be identified to $k(x, y)$, for $x, y \in \mathcal{H}$):
+        \begin{itemize}
+            \item $\forall x \in \mathcal{X}, \forall f \in \mathcal{H}, ~f(x) = \langle u_x, f \rangle_\mathcal{H}$
+            \item $\forall x \in \mathcal{X}, \forall y \in \mathcal{X}, ~u_y(x) = \langle u_x, u_y \rangle_\mathcal{H}$, as for any $y \in \mathcal{X}$, $u_y$ belongs to $\mathcal{H}$.
+        \end{itemize}
+
+        Therefore, we just have to show - or know - that as the linear form $\Psi_x : f \mapsto f(x)$ is bounded, it is continuous. Let's give a quick proof.
+
+        We fix $x \in \mathcal{X}$. As the linear form $\Psi_x$ is bounded, there exists $M$ that upper-bounds the set $\{ f \in \mathcal{H},~ ||f||_\mathcal{H} \leq 1 \}$.
+
+        Now, for any $f \in \mathcal{H}$, we have $f = ||f||_\mathcal{H} \frac{f}{||f||_\mathcal{H}}$ which means, by linearity of the norm and of $\Psi_x$, that we have $|\Psi_x(f)| \leq ||f||_\mathcal{H} M$ (applying the upper-bound to $\frac{f}{||f||_\mathcal{H}}$).
+        This result stands for any couple $(f, f') \in \mathcal{H}^2$, which shows that $\Psi_x$ is $M$-Lipschitz, and therefore continuous.
+    \end{solution}
+
+    \question E7-2
+
+    \begin{solution}
+        We note $K$ the kernel matrix. As $k$ is a positive-definite kernel, $K$ is positive-definite. We need to show that $e^K$ is also positive definite. This comes from the following definition of the exponential of matrix : $$e^K = \sum_{i=0}^{+\infty} \frac{K^i}{i!}.$$
+
+        We can diagonalize $K$ and $e^K$ in the same basis (one can be convinced by injecting the diagonalized matrix $PKP^{-1}$ in the sum), and the eigenvalues of $e^K$ will be the exponential of the eigenvalues of $K$. As $K$ is positive-definite, its eigenvalues are real. Therefore, those of $e^K$ are positive and $e^K$ is also positive-definite.
+
+        This shows that $(x, x') \mapsto e^{k(x, x'}$ is a positive-definite kernel.
+    \end{solution}
+
+    \question E7-11
+
+    \begin{solution}
+        \begin{parts}
+            \part Using the same notations as, e.g. those of chapter 3, the primal problem of Ridge regression can be expressed as $$\min_{\substack{\theta \in \rb^d \\ y - \Phi \theta = r}} \frac{1}{2} \|r\|^2 + \frac{\lambda}{2} \| \theta \|^2,$$ where $\Phi \in \rb^{n \times d}$ is the design matrix.
+
+            The associated Lagrangian is therefore $$\mathcal{L}(\theta, r, \alpha) = \frac{1}{2} \|r\|^2 + \frac{\lambda}{2}\| \theta \|^2 + \alpha^\top (y-\Phi\theta-r).$$
+
+            As our primal optimization problem is convex, using the saddle point theorem, we can express our minimization problem as the maximization of the dual function $$g : \alpha \mapsto \underset{\theta \in \rb^d, ~ r \in \rb}{\min}\mathcal{L}(\theta, r,\alpha).$$
+
+            We compute
+            $$
+            \begin{aligned}
+                \frac{\partial \mathcal{L}}{\partial \theta} &= \lambda \theta - \Phi^\top \alpha = 0 \Longleftrightarrow \theta = \frac{1}{\lambda} \Phi^\top \alpha, \\
+                \frac{\partial \mathcal{L}}{\partial r} &= r - \alpha \Longleftrightarrow r = \alpha.
+            \end{aligned}
+            $$
+
+            Which yields $g(\alpha) = -\frac{\| \alpha \|^2}{2} - \frac{\| \Phi^\top \alpha \|^2}{2 \lambda} + \alpha^\top y$.
+
+            Finally, computing $g'(\alpha) = 0$ gives
+            $$
+            \hat{\alpha} = \lambda (\lambda I + \Phi \Phi^\top)^{-1} y,$$
+            and therefore
+            $$
+            \hat{\theta}_{dual} = \Phi^\top  (\lambda I + \Phi \Phi^\top)^{-1} y.
+            $$
+
+            \textit{Not so sure of this one...}
+            Regarding condition numbers, we are interested in comparing the eigenvalues of $\Phi \Phi^\top \in \rb^{n \times n}$ and $\Phi^\top \Phi \in \rb^{d \times d}$. We assume that we have $n < d$.
+
+            Both matrix share the same non-zero eigenvalues (with the same algebraic multiplicity, slightly more complicated to show, I had to look online).
+
+            Therefore, it is more likely that $\Phi^\top \Phi \in \rb^{d \times d}$ has a null eigenvalue, meaning that we would obtain the following condition numbers (ratio of the extrema of the Hessian's eigenvalues set) :
+            $$
+             \text{ (primal) } \frac{L+\lambda}{\lambda} \geq \frac{L+\lambda}{\mu+\lambda} \text{ (dual)}.
+            $$
+
+            \part
+            Using the transpose of the matrix inversion lemma, meaning $\Phi^\top (\Phi \Phi^\top + \lambda I)^{-1} = (\Phi^\top \Phi + \lambda I)^{-1} \Phi^\top$, in the expression we found for $\hat{\theta}_{dual} = \Phi^\top  (\lambda I + \Phi \Phi^\top)^{-1} y$, we directly obtain the same minimizer as in the equations of chapter 3.
+
+            However, on top of the above-mentioned benefit for the condition number, optimizing over $\alpha$ ($\in \rb^n$) instead of $\theta$ ($\in \rb^d$) can speed up computations !
+        \end{parts}
+    \end{solution}
+\end{questions}

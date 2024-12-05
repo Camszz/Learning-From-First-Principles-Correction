@@ -1,0 +1,39 @@
+\section{Chapter 9}
+\begin{questions}
+
+    \question E9-1
+
+    \begin{solution}
+        Using the same computations as in the book, we obtain
+        $$R_n(\mathcal{G}) \leq 2GD \mathbb{E} \left[ \sup_{\|w\|_1 + |c| = 1}{ \left| w^\top \left( \frac{1}{n} \sum_{i=1}^{n} \varepsilon_i x_i \right) + c \left( \frac{R}{n} \sum_{i=1}^{n} \varepsilon_i \right) \right|}  \right],
+        $$
+        after using $\eta$'s bounds, the G-Lipschitz property of the loss function, and the result on Rademacher complexities defined by a absolute value.
+
+        Let's upper-bound the expression we have to maximize :
+        $$
+        \begin{aligned}
+            |w^\top z +c t| &\leq |w^\top z| + |c| |t| \\
+            &\leq \|z\|_\infty \|w\|_1 + |c| |t|, \text{ using Hölder's inequality,} \\
+            &\leq \|z\|_\infty + |c| (|t| - \|z\|_\infty), \text{ as } \|w\|_1 + |c| = 1.
+        \end{aligned}
+        $$
+        Therefore,
+        $$
+        \sup_{\|w\|_1 + |c| = 1}{ \left| w^\top z + c t \right| } = \max \left( \|z\|_\infty, |t| \right).
+        $$
+
+        Let's compute each :
+        $$
+        \mathbb{E} (\| \frac{1}{n} \sum_{i=1}^{n} \varepsilon_i x_i \|_\infty ) = \mathbb{E} ( \max_{1 \leq j \leq d} | \frac{1}{n} \sum_{i=1}^{n} \varepsilon_i x_{ij} |) = \sqrt{\frac{2 R^2 \log 2d}{n}}
+        $$ using the results from Chap. 1 on the expectation of maximum; see Exercise 4.12 for a more detailed explanation ;
+        $$
+        \frac{R}{n} \mathbb{E} (| \sum_{i=1}^{n} \varepsilon_i |) \leq \frac{R}{ \sqrt{n}},
+        $$
+        using Jensen's inequality.
+
+        This leads to an upper bound of the form : $$R_n(\mathcal{G}) \leq 2GDR \frac{\sqrt{2 \log 2d}}{\sqrt{n}} \leq \frac{4 GDR \sqrt{\log 2d}}{\sqrt{n}}.$$
+
+        This leads to a bound whose expression close to the book's one, but with a dependance in the log of the number of parameters.
+    \end{solution}
+\end{questions}
+\end{document}

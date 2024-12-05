@@ -1,0 +1,41 @@
+\section{Chapter 6}
+\begin{questions}
+
+    \question E6-1
+    
+    \begin{solution}
+    Common to both cases, we have a sparse pattern of nonzeros in the smoothing matrix. This comes from the fact that in usual settings, we have either $k$ small compared to the number of points ($k$-NN) or $J$, the number of sets, big enough to capture meaningful patterns in the data (partitions).
+    \begin{parts}
+            \part \textbf{KNN case} \newline
+            Following the book's notations, we have :
+            $$
+            w_i(x) = 
+            \begin{cases} 
+            \frac{1}{k} & \text{if } i \in \{i_1(x), \dots, i_k(x)\}, \\
+            0 & \text{otherwise}
+            \end{cases},
+            $$
+            where $\{ i_1(x), \dots, i_k(x)\}$ are the indices of the $k$-closest elements of $(x_j)_{1\leq j \leq n}$ to $x$.
+
+            Therefore, unless we specify (by convention) that $w_i(x_i) = 0$, we have $\text{diag}(H)_i = 1/k$. This means that on each column, $k-1$ other cases are equal to $1/k$, but no specific pattern can be found.
+
+            Especially, the smoothing matrix is not symmetric (point $x_i$ being among the closest points to a certain $x_j$ doesn't necessarily mean that the opposite stands).
+
+            \part \textbf{Partition case} \newline
+            Unlike KNN, in the case of partitions, the space segmentation is the same for all points (whereas it is local for KNN, as explained before). Therefore, the smoothing matrix $H$ is symmetrical.
+
+            Moreover, by rearranging the points' indices s.t, if $\varphi$ is a permutation of $[|1, n|]$, we have $(x_{\varphi(1)}, \dots, x_{\varphi(n_{A_1})} \in A_1 ~,~ (x_{\varphi(n_{A_1}+1)}, \dots, x_{\varphi(n_{A_1} + n_{A_2})}) \in A_2$, etc…, we obtain a block matrix.
+
+            With the normalization rule we defined on the weights, the nonzeros of the smoothing matrix are not all equal but both rows and columns sum to 1. 
+    \end{parts}
+
+    \end{solution}
+    
+    \question E6-3
+
+    \begin{solution}
+    We note $\hat{f_n}$ the 1-NN estimator computed on $n$ samples, and want to show that $(\hat{f_n})_n$ converges in probability to $f_*$.
+    Using proposition 6.2, we show that having $\sigma = 0$, the expected risk tends to $0$ when $n$ tends to infinity.
+    Therefore, as the convergence in L-p norm ($p>1$, here $p=2$) implies the convergence in probability, we directly obtain the expected result.
+\end{solution}
+\end{questions}

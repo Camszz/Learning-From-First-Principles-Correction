@@ -1,0 +1,92 @@
+\section{Chapter 5}
+\begin{questions}
+
+    \question E5-1
+    
+    \begin{solution}
+Given the same notations as in the book, we want to show that : $$\exists \alpha \in \rb,~ |F(\theta_t)-F(\eta_*)| \leq \alpha \left( 1 - \frac{\mu_+}{L} \right)^{2t} \|\theta_0 - \eta_* \|_2.$$
+According to already proven results, we need to show that $$|\lambda (1-\frac{\lambda}{L})^{2t}| \leq \alpha' \left( 1 - \frac{\mu_+}{L} \right)^{2t}$$
+for $\lambda$ any eigenvalue of $H = \frac{1}{n} \Phi^\top \Phi$.
+
+We have, for any $\lambda \in \Lambda(H)$ the eigenvalues of $H$ :
+$$
+\left|\lambda \left(1-\frac{\lambda}{L} \right)^{2t} \right| \leq \max_{\substack{\lambda' \in \Lambda(H) \\ \lambda > 0}} \left|\lambda' \left(1-\frac{\lambda'}{L} \right)^{2t} \right| \leq L \max_{\substack{\lambda' \in \Lambda(H) \\ \lambda > 0}} \left(1-\frac{\lambda'}{L} \right)^{2t},
+$$
+where we use between terms 1 and 2 that $\lambda = 0$ (if it exists) can not be a maximizer, and between terms 2 and 3 that for $a, b$ positive, $\max (ab) \leq \max (a)\max (b)$.
+
+As $\Lambda(H) \cap \rb^* \subset [\mu_+, L]$, this gives the expected result directly, having
+$$
+|F(\theta_t)-F(\eta_*)| \leq \frac{L}{2} \left( 1 - \frac{\mu_+}{L} \right)^{2t} \|\theta_0 - \eta_* \|_2.
+$$
+    \end{solution}
+    
+    \question E5-9
+
+    \begin{solution}
+    \begin{parts}
+        \part Let's show that an $\ell2$-regularized logistic regression is strongly convex and smooth.
+        
+        \textbf{Gradient and Hessian computations : } We define the loss function as
+        $$
+        \mathcal{L}(y, \theta) = - \frac{1}{n} \sum_{i=1}^{n} \left( y_i \log(\sigma(\theta^\top x_i) + (1-y_i) \log(1-\sigma(\theta^\top x_i)) \right) + \frac{\lambda}{2}\|\theta\|_2^2,
+        $$
+        where $\sigma$ is the sigmoid function.
+
+        To facilitate the computation, we consider, for $i\in [| 1, n |]$,
+        $$
+        - l_i(\theta) = y_i \log(\sigma(\theta^\top x_i) + (1-y_i) \log(1-\sigma(\theta^\top x_i)).
+        $$
+        The function $l_i$ is twice differentiable. Letting $z_i = \theta^\top x_i$, and using $\sigma'(z) = \sigma(z) (1-\sigma(z))$, we have
+        $$
+        \frac{\partial l_i}{\partial z}(\theta) = - y_i (1-\sigma(z_i)) + (1-y_i) \sigma(z_i) = \sigma(z_i) - y_i.
+        $$
+
+        By the chain rule, we obtain
+        $$
+        \nabla l_i(\theta) = (\sigma(z_i) - y_i) \frac{\partial z_i}{\partial \theta} = (\sigma(\theta^\top x_i) - y_i) x_i.
+        $$
+
+        The Hessian of this function is $\nabla^2 l_i(\theta) = \sigma(z_i) (1-\sigma(z_i) x_i x_i^\top \geq 0$.
+
+        \textbf{Strong convexity: } This expression ensures that $l_i$ is convex, therefore, $\sum_{i=1}^n l_i$ is convex and adding the $\ell2-$regularization term, we obtain that \uline{$\mathcal{L}$ is $\lambda$-strongly-convex.}
+
+        \textbf{L-smoothness:} As $u(1-u) \leq \frac{1}{4}$ for $u \in \rb$, we have, for $\theta, \theta' \in \rb$:
+        $$
+        \begin{aligned}
+            \|\mathcal{L}'(\theta) - \mathcal{L}'(\theta')\|_2 &= \|\frac{1}{n} \sum_{i=1}^n \left( (\sigma(z_i) - \sigma(z_i')) x \right) + \lambda (\theta - \theta')\|_2 \\
+            &\leq \frac{1}{n} \sum_{i=1}^n |(\sigma(z_i) - \sigma(z_i'))| \|x\|_2 +  \lambda \|\theta - \theta'\|_2, \\
+            &\text{ by triangle inequality} \\
+            &\leq \sum_{i=1}^n \frac{\|x_i\|_2}{4n}(\theta-\theta')^\top x_i  +  \lambda \|\theta - \theta'\|_2, \\ 
+            &\text{ as sigmoid is 1/4-Lipschitz} \\
+            &\leq \left( \sum_{i=1}^n \frac{\|x_i\|_2^2}{4n}  +  \lambda \right) \|\theta - \theta'\|_2.
+        \end{aligned}
+        $$
+
+        \uline{$\mathcal{L}$ is therefore $\left( \sum_{i=1}^n \frac{\|x_i\|_2^2}{4n}  +  \lambda \right)$-smooth.}
+    
+    \part We now tackle the ridge-regression case, for which we will shorten the intermediate computations.
+
+     \textbf{Gradient and Hessian computations: } Using the same notation as in previous chapters of the book, we define 
+     $$
+     \begin{aligned}
+         \mathcal{L}(y, \theta) &= \frac{1}{2} \|y - \Phi \theta \|_2^2 + \frac{\lambda}{2} \| \theta \|_2^2 \\
+         \nabla_{\theta} \mathcal{L}(y, \theta) &= \frac{1}{n} (\phi^\top \phi \theta - \phi^\top y) + \lambda \theta \\
+         \nabla_{\theta}^2 \mathcal{L}(y, \theta) &= H + \lambda I
+     \end{aligned}
+     $$
+
+    \textbf{Strong convexity:} The Hessian form os the objective function shows that, denoting $\lambda_{\min}(H)$ the minimum eigenvalue of $H$, the objective function is \uline{$\left( \lambda_{\min}(H) + \lambda  \right)$-strongly-convex.}
+
+    \textbf{L-smoothness:} We have
+    $$
+    \begin{aligned}
+            \|\mathcal{L}'(\theta) - \mathcal{L}'(\theta')\|_2 &= \| (H+\lambda I) (\theta-\theta') \|_2 \\
+            &\leq (\lambda_{\max}(H) + \lambda) \|(\theta-\theta') \|_2
+        \end{aligned}
+    $$
+    And therefore, \uline{$\mathcal{L}$ is $(\lambda_{\max}(H) + \lambda)$-smooth.}
+    \end{parts}
+
+        
+    \end{solution}
+\end{questions}

@@ -1,0 +1,41 @@
+\section{Chapter 4}
+\begin{questions}
+
+    \question E4-9
+    
+    \begin{solution}
+        \begin{parts}
+            \part We define $\mathcal{H}, \mathcal{H'}$ s.t $\mathcal{H} \subset \mathcal{H'}$. Let $\mathcal{Y}_{\mathcal{H}} = \sup_{h \in \mathcal{H}} \varepsilon^\top (h(z_1), \dots, h(z_n))$   and $\mathcal{Y}_{\mathcal{H'}}$ defined with the same logic. We clearly have $\mathcal{Y}_{\mathcal{H}} \leq \mathcal{Y}_{\mathcal{H'}}$ (for all $\varepsilon, \mathcal{D}$), which yields the expected result.
+            \part We define $\mathcal{H}, \mathcal{H'}$ and want to compute $\mathcal{R}_n(\mathcal{H} + \mathcal{H'})$. As we have $\mathcal{H} + \mathcal{H'} = \{ \tilde{h} | \tilde{h} = h + h', h \in \mathcal{H}, h' \in \mathcal{H}' \}$. Therefore, by linearity of the expectation, and additivity of the evaluated expression w.r.t $h$ (meaning $\sup_{h \in \mathcal{H}, h' \in \mathcal{H}'} \dots = \sup_{h \in \mathcal{H}} \dots + \sup_{h' \in \mathcal{H}'} \dots$ here). This gives $\mathcal{R}_n(\mathcal{H} + \mathcal{H'}) = \mathcal{R}_n(\mathcal{H}) + \mathcal{R}_n(\mathcal{H}')$.
+            \part Let $\alpha \in \rb$. If $\alpha \geq 0$, the result is obvious. If $\alpha \leq 0$, let's consider the expectation w.r.t the Rademacher variables $(\varepsilon_1', \dots, \varepsilon_n') \sim -(\varepsilon_1, \dots, \varepsilon_n)$ (by symmetry). We therefore have to compute $\mathbf{E}_{\varepsilon', \mathcal{D}}( \sup_{h \in \mathcal{H}} \frac{1}{n} \sum_{i=1}^{n} \varepsilon_i' (-\alpha)h(z_i))$. As $-\alpha = |\alpha|$ is positive, we clearly have $\mathcal{R}_n(\alpha \mathcal{H}) = |\alpha| \mathcal{R}_n(\mathcal{H})$. This concludes the proof. 
+            \part Using result b), we just have to show that for $h_0$ as defined in the book, $\mathcal{R}_n(h_0) = 0$. The expression simplifies as  $$\mathbf{E}_{\varepsilon, \mathcal{D}}(\frac{1}{n} \sum_{i=1}^{n} \varepsilon_i h_0(z_i)) = \mathbf{E}_{\mathcal{D}}(\frac{1}{n} \sum_{i=1}^{n} \mathbb{E}_{\varepsilon}(\varepsilon_i) h_0(z_i)) = 0,$$
+            using that we evaluate the sup on a singleton.
+            \part We clearly have $\mathcal{R}_n(\mathcal{H}) \leq \mathcal{R}_n(\text{convex hull } \mathcal{H})$ by using $\mathcal{H} \subset \text{convex hull } \mathcal{H}$ and a). We therefore want to show $\mathcal{R}_n(\mathcal{H}) \geq \mathcal{R}_n(\text{convex hull } \mathcal{H})$. Let $\varepsilon = (\varepsilon_1, \dots, \varepsilon_n)$ be a draw of Rademacher variables ; let $\tilde{h} \in \text{convex hull } \mathcal{H}$. There exists $(\alpha_i)_{i \in [|1, m|]} \in \rb^m$, which sum to 1, and $(h_i)_{i \in [|1, m|]} \in \mathcal{H}^m$ s.t. $\tilde{h} = \sum_{k = 1}^{m} \alpha_k h_k$.
+            We have :
+            $$
+            \begin{aligned}
+                \sum_{i = 1}^{n} \varepsilon_i \tilde{h}(z_i) &= \sum_{i = 1}^{n} \varepsilon_i \sum_{k = 1}^{m} \alpha_k h_k(z_i) \\ 
+                &= \sum_{k = 1}^{m} \alpha_k \sum_{i = 1}^{n} \varepsilon_i h_k(z_i) \\
+                &\leq \sum_{k = 1}^{m} \alpha_k \sup_{h \in \mathcal{H}} \sum_{i = 1}^{n} (\varepsilon_i h(z_i)) \\
+                &\leq \sup_{h \in \mathcal{H}} \sum_{i = 1}^{n} \varepsilon_i h(z_i)
+            \end{aligned}
+            $$
+            Therefore, $\sup_{\tilde{h} \in \text{convex hull }\mathcal{H}} \sum_{i = 1}^{n} \varepsilon_i \tilde{h}(z_i) \leq \sup_{h \in \mathcal{H}} \sum_{i = 1}^{n} \varepsilon_i h(z_i)$. Taking the expectancy concludes the proof.
+        \end{parts}
+    \end{solution}
+    
+    \question Q4-12
+
+    \begin{solution}
+        We use $\mathcal{R}_n(\mathcal{F}) = \frac{D}{n} \mathbb{E}(||\Phi^{\top} \varepsilon||_\infty)$ ($\|.\|_\infty$ is the dual norm of $\|.\|_1$). We want to upper-bound $$\mathbb{E}(||\Phi^{\top} \varepsilon||_\infty) = \mathbb{E}(\max_{1 \leq i \leq d } | \sum_{j = 1}^{n} \varphi_j(x_i) \varepsilon_i |).$$
+
+        As $||\varphi(x)|| \leq R$ almost surely, the same applies tho its components (i.e for $1 \leq j \leq n, ~ |\varphi_j(x)| \leq R$). The random variables $\varepsilon_i \varphi_j(x_i)$ are therefore bounded by $R$ and $-R$ and are sub-Gaussian with a sub-Gaussian parameter $\sigma^2 = R^2$. The sum $\sum_{j = 1}^{n} \varphi_j(x_i) \varepsilon_i$ is therefore also sub-Gaussian (as the summed random variables are independent) with a parameter $\sigma_S^2 = n R^2$.
+
+        Using the result from 1.2.4, we can bound the expectation of the maximum (over $j$) of these variables by $\sqrt{2 \sigma_S^2 \log{d}} = R \sqrt{2 n \log{d}}$.
+
+        Combining it to the first result, we obtain :
+        $$
+        \mathcal{R}_n(\mathcal{F}) = RD \sqrt{\frac{2 \log{d}}{n}}.
+        $$
+    \end{solution}
+\end{questions}

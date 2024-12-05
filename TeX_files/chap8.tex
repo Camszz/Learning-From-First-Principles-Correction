@@ -1,0 +1,44 @@
+\section{Chapter 8}
+\begin{questions}
+
+    \question E8-2
+
+    \begin{solution}
+        Let $\Tilde{\theta} \in \text{argmin}_{\theta \in \Theta} \|y-\Phi\theta\|_2^2$. If $\theta_* \in \Theta$, we have
+        $$
+        \|y - \Phi \hat{\theta}\|_2^2 - n \rho \leq \|y - \Phi \Tilde{\theta}\|_2^2 \leq \|y - \Phi \theta_*\|_2^2,
+        $$
+        using the approximation error on $\hat{\theta}$.
+        
+        We develop the expressions as in section $(8.1.1)$ and obtain, before taking the square of the expression,
+        $$
+        \|\Phi(\hat{\theta} - \theta_*)\|_2^2 - n \rho \leq 2 \|\Phi(\hat{\theta} - \theta_*)\|_2 \sup_{\theta \in \Theta} \left[ \varepsilon^\top \frac{\Phi (\theta - \theta_*)}{\|\Phi(\theta - \theta_*)\|_2} \right]^2.
+        $$
+        We divide by $\|\Phi(\theta - \theta_*)\|_2$ and take the square of the expression. The left term is :
+        $$
+        \begin{aligned}
+            \left( \|\Phi(\hat{\theta} - \theta_*)\|_2 - \frac{n\rho}{\|\Phi(\theta - \theta_*)\|_2} \right)^2 &= \|\Phi(\hat{\theta} - \theta_*)\|_2^2 + \left( \frac{n \rho}{\|\Phi(\hat{\theta} - \theta_*)\|_2} \right)^2 - 2 n \rho \\
+            &\geq \|\Phi(\hat{\theta} - \theta_*)\|_2^2 - 2 n \rho.
+        \end{aligned}
+        $$
+        This concludes the proof, as one just needs to rearange the terms.
+    \end{solution}
+
+    \question E8-6
+    \begin{solution}
+       Using notations from the book, let $H(\theta) = \frac{1}{2n} \|y - \Phi \theta\|_2^2 + \lambda \|\theta\|_1$. This function is convex, therefore, one just has to show that all its  directional derivatives in $0$ are nonnegative to show that $0$ is a minimizer.
+
+       Let $\epsilon > 0$ and $\Delta \in \rb^d$. We have
+       $$
+       \frac{1}{\varepsilon} \left( H(0) - H(\varepsilon \Delta) \right) = \frac{1}{2n} \left( \varepsilon \|\Phi \Delta \|_2^2 + 2 y^\top \Phi \Delta \right) + \lambda \| \Delta \|_1.
+       $$
+       Therefore,
+       $$
+       \begin{aligned}
+           \lim_{\varepsilon \rightarrow 0}{\frac{1}{\varepsilon} \left( H(0) - H(\varepsilon \Delta) \right)} &= \lambda \| \Delta \|_1 - \frac{1}{n} y^\top \Phi \Delta \\
+           &\geq (\lambda - \|\frac{1}{n} y^\top \Phi\|_{\infty}) \| \Delta \|_1, &&\text{ as } \frac{1}{n} y^\top \Phi \Delta \leq \| \frac{1}{n} y^\top \Phi \|_\infty \| \Delta \|_1 \\
+           \lim_{\varepsilon \rightarrow 0}{\frac{1}{\varepsilon} \left( H(0) - H(\varepsilon \Delta) \right)} &\geq 0, &&\text{ as } \lambda \geq \|\frac{1}{n} y^\top \Phi\|_{\infty}.
+       \end{aligned}
+       $$
+    \end{solution}
+\end{questions}

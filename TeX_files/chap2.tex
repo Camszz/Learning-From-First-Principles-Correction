@@ -1,0 +1,65 @@
+\section{Chapter 2}
+\begin{questions}
+\question E2.1 
+
+\begin{solution}
+    We take $l$, $c_+$ and $c_-$ as defined above. Given $x \in X$, we compute $$\underset{z \in \{-1,1\}}{\operatorname{argmin}} ~ \mathbb{E}[l(y,z) ~ | x=x'] .$$
+
+    We have $$\mathbb{E}[y|x] = \mathbb{P}(y=1|x) - \mathbb{P}(y=-1|x).$$
+    Therefore, computing $\mathbb{E}[l(y, z') ~ | x=x']$ for $z'=1$, we obtain :
+    $$\begin{aligned}
+        \mathbb{E}[l(y, z') ~ | x=x'] &= \mathbb{E} [l(y, -1) | x=x'] \\ 
+        &= c_-\mathbb{P}(y=-1 | x=x') \\
+        &= c_- \frac{1-\mathbb{E}[y|x=x']}{2}
+    \end{aligned}$$
+    And with $z'=-1$, it yields :
+    $$\begin{aligned}
+    \mathbb{E}[l(y, z') ~ | x=x'] &= \mathbb{E} [l(y, 1) | x=x'] \\
+    &= c_+\mathbb{P}(y=1 | x=x') \\
+    &= c_+ \frac{1+\mathbb{E}[y|x=x']}{2}
+    \end{aligned}.$$
+
+    This gives a choice for a Bayes estimator $f : X \rightarrow \rb$ such that, for all $x' \in \rb$, $$f(x') = 2 ~\mathds{1}_{\frac{c_-}{c_+} \leq \frac{1+\mathbb{E}[y|x=x']}{1-\mathbb{E}[y|x=x']}} - 1.$$
+\end{solution}
+
+\question E2.2
+
+\begin{solution}
+Let $\mathcal{X, Y}, \boldsymbol{l}$ be as defined in the text. We assume that $y$ has a density function $p(y, x)$.
+
+    Let $x\in \mathcal{X}, ~z\in \rb$ :
+    $$
+    \begin{aligned}
+        e(z) = \mathbb{E} (|y-z| ~|x=x) &= \int_{-\infty}^{+\infty} |y-z| p(y, x) dy \\
+        &= \int_{-\infty}^{z} (z-y) p(y, x) dy + \int_{z}^{+\infty} (y-z) p(y, x) dy
+    \end{aligned}
+    $$
+
+    By the Leibnitz rule, the derivative yields : $e'(z) = \int_{-\infty}^{z} p(y, x) dy - \int_{z}^{+\infty} p(y, x) dy$, which shows that the minimum of $e$ is reached on the median of y given x.
+
+    Therefore, the Bayes predictor $f_*$ is, in our case, the median of y given x.
+\end{solution}
+
+\question E2.4 (*)
+
+\begin{solution}
+Having the same notations as in the problem statement. Let $\epsilon > 0$.
+
+    Let $x' \in \rb$. Let $z \in \rb$.
+    $$
+    \begin{aligned}
+        \mathbb{E}(l(y,z)|x=x') &= \int_{|y-z|\geq\epsilon}|y-z-\epsilon|p(y,x)dy \\
+        &= \int_{y-z \geq \epsilon}(y-z-\epsilon)p(y,x)dy + \int_{z-y \geq \epsilon}(z-y-\epsilon)p(y,x)dy
+    \end{aligned}
+    $$
+    Derivating the expresion w.r.t $z$ yields : 
+    $$
+    \int_{y-z \geq \epsilon}p(y,x)dy - \int_{z-y \geq \epsilon}p(y,x)dy = \mathbb{P}(y-z \geq \epsilon | x=x') - \mathbb{P}(y-z \leq -\epsilon | x=x')
+    $$
+    Therefore, a Bayes estimator can be interpreted as a balance between the number of overestimated and underestimated predictions, above a specific threshold ($\epsilon$).
+    \bigbreak
+    Let $y$ be supported in an interval of less than $2 \epsilon$ for all x. For a given $x$, we assume that $(a, b)$ is the smallest interval supporting $y$ given $x$ ($b-a \leq 2\epsilon$). As we cannot have both $\mathbb{P}(y-z \leq -\epsilon | x=x') > 0$ and $\mathbb{P}(y-z \geq \epsilon | x=x') > 0$, we need $$\mathbb{P}(y-z \leq -\epsilon | x=x') =\mathbb{P}(y-z \geq \epsilon | x=x') = 0.$$
+
+    Therefore, $f : \mathcal{X} \rightarrow \rb$ is a Bayes estimator for this problem if, and only if, for all $x$, $f(x) \in (b-\epsilon, a+\epsilon)$, where $a$ and $b$ are $x-$dependant as defined before.
+\end{solution}
+\end{questions}
